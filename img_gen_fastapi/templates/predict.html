@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Predict Page{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <center>
+        {% if res_is_ready %}
+            <h2>Your beautiful image!!!</h2>
+            <img src="{{ url_for('static', path=result_path) }}"/>
+        {% elif process %}
+            <h2>Image is not ready yet</h2>
+        {% else %}
+            <h2>Model ready to generate something</h2>
+        {% endif %}
+
+        <form method="post">
+            <div class="container">
+                <input type="submit" value="Predict" class="button" name="predict">
+                {% if res_is_ready %}
+                    <a href="{{ url_for('static', path=result_path) }}" download>Download File</a>
+                {% endif %}
+                <input type="submit" value="Clear" class="button" name="clear">
+            </div>
+        </form>
+    </center>
+{% endblock %}
