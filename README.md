@@ -27,7 +27,7 @@ Install:
 
 After that, Celery can be started via command:
 
-`celery -A your_app_name worker --pool=eventlet`
+`celery -A celery_task_app.worker worker --pool=eventlet`
 
 *but* there is some issue with this `eventlet`
 
@@ -36,7 +36,7 @@ After that, Celery can be started via command:
 Instal:
 `pip install gevent`
 
-Run Celery with command: `celery -A <module> worker -l info -P gevent`
+Run Celery with command: `celery -A celery_task_app.worker worker -l info -P gevent`
 
 
 Tested on Windows 10
