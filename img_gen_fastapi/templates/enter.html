@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Start page{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <center>
+        <div class="btn-group">
+            <a href="predict/" class="button">Predict Page</a>
+            <br><br>
+            <a href="train/" class="button">Train Page</a>
+        </div>
+    </center>
+{% endblock %}

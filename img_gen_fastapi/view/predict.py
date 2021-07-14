@@ -1,9 +1,7 @@
 from img_gen_fastapi.celery_task_app.tasks import predict_single
 from img_gen_fastapi.templates import templates
-from img_gen_fastapi.view.models import Task
-from fastapi import APIRouter
-from fastapi import Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi import APIRouter, Request, Form, status
+from fastapi.responses import HTMLResponse, RedirectResponse
 
 from celery.result import AsyncResult
 
@@ -40,20 +38,22 @@ async def predict_page(request: Request):
     )
 
 
-@router.post('/', response_model=Task, status_code=202)
-async def churn(request: Request, predict: str = Form(None), save_res: str = Form(None), clear: str = Form(None)):
+@router.post('/', status_code=202)
+async def post_predict_page(
+        request: Request,
+        predict: str = Form(None), save_res: str = Form(None),
+        clear: str = Form(None), label_gen: int = Form(0)):
     """Create celery prediction task. Return task_id to client in order to retrieve result"""
     global CURRENT_TASK_ID
     if clear is not None:
         CURRENT_TASK_ID = None
-        return {'task_id': str(CURRENT_TASK_ID),
-                'status': f"Clear old image"}
+        return RedirectResponse(router.url_path_for('predict_page'), status_code=status.HTTP_302_FOUND)
 
     if save_res is not None:
-        pass # TODO: Give possobility to download image
+        return RedirectResponse(router.url_path_for('predict_page'), status_code=status.HTTP_302_FOUND)
 
     # Otherwise - user click `predict`
-    CURRENT_TASK_ID = predict_single.delay('test')
-    return {'task_id': str(CURRENT_TASK_ID), 'status': f"Processing predict: {predict}, save_res: {save_res}, clear: {clear}"}
+    CURRENT_TASK_ID = predict_single.delay('test', label_gen)
+    return RedirectResponse(router.url_path_for('predict_page'), status_code=status.HTTP_302_FOUND)
 
 

@@ -1,9 +1,14 @@
-from img_gen_fastapi.celery_task_app.tasks import predict_single
+import asyncio
+from concurrent.futures import ProcessPoolExecutor
+from functools import partial
+
+import json
+
+from img_gen_fastapi.celery_task_app.tasks import train_step_task
 from img_gen_fastapi.templates import templates
-from img_gen_fastapi.view.models import Task
-from fastapi import APIRouter
+from fastapi import APIRouter, Body, status
 from fastapi import Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 
 from celery.result import AsyncResult
 
@@ -14,46 +19,76 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-CURRENT_TASK_ID = None
+TRAIN_CURRENT_TASK_ID = None
+IS_ABORTED = False
+NUM_ITERATION = None
+NUM_EPOCH = None
+PREV_TASK_INFO = None
 
 
 @router.get("/", response_class=HTMLResponse)
-async def predict_page(request: Request):
-    global CURRENT_TASK_ID
-    if CURRENT_TASK_ID is not None:
+async def train_page(request: Request, log_window: str = Body('Here will be some logs')):
+    global TRAIN_CURRENT_TASK_ID, IS_ABORTED, PREV_TASK_INFO
+    if TRAIN_CURRENT_TASK_ID is not None:
         # Take res (?)
         # Fetch result for given task_id
-        task = AsyncResult(str(CURRENT_TASK_ID))
+        task = AsyncResult(str(TRAIN_CURRENT_TASK_ID))
         if not task.ready():
+            is_aborted = False
+            if IS_ABORTED:
+                is_aborted = True
+                IS_ABORTED = False
+            task_info = task.info
+            if task_info is None:
+                task_info = ""
+            else:
+                task_info = "\n".join(task_info['log'])
+            PREV_TASK_INFO = task_info
             return templates.TemplateResponse(
-                "predict.html",
-                {"request": request, "res_is_ready": False, "process": True}
+                "train.html",
+                {
+                    "request": request, 'log_window': "Model is training...\n" + task_info,
+                    'need_to_update': True, 'is_aborted': False,
+                    'num_epoch_v': NUM_EPOCH, 'num_iteration_v': NUM_ITERATION}
             )
-        result = task.get()
+        TRAIN_CURRENT_TASK_ID = None
+        PREV_TASK_INFO = None
+        #with open('static/train/log.json', 'r') as fp:
+        #    data = json.load(fp)['log']
         return templates.TemplateResponse(
-            "predict.html",
-            {"request": request, "res_is_ready": True, "result_path": "/".join(result.split('/')[1:]), "process": False}
+            "train.html",
+            {"request": request, 'log_window': "\n".join(task.get()), 'need_to_update': False, 'is_aborted': False}
         )
+    if PREV_TASK_INFO is not None:
+        prev_log = PREV_TASK_INFO
+    else:
+        prev_log = ""
+    is_aborted = False
+    if IS_ABORTED:
+        is_aborted = True
+        IS_ABORTED = False
     return templates.TemplateResponse(
-        "predict.html",
-        {"request": request, "res_is_ready": False, "process": False}
+        "train.html",
+        {"request": request, 'log_window': log_window + '\n' + prev_log, 'need_to_update': False, 'is_aborted': is_aborted}
     )
 
 
-@router.post('/', response_model=Task, status_code=202)
-async def churn(request: Request, predict: str = Form(None), save_res: str = Form(None), clear: str = Form(None)):
+@router.post('/', status_code=202)
+async def post_train_page(
+        request: Request,
+        num_iteration: int = Form(...), num_epoch: int = Form(...),
+        start: str = Form(None), stop: str = Form(None)):
     """Create celery prediction task. Return task_id to client in order to retrieve result"""
-    global CURRENT_TASK_ID
-    if clear is not None:
-        CURRENT_TASK_ID = None
-        return {'task_id': str(CURRENT_TASK_ID),
-                'status': f"Clear old image"}
+    global TRAIN_CURRENT_TASK_ID, IS_ABORTED, NUM_EPOCH, NUM_ITERATION
+    if start is not None and TRAIN_CURRENT_TASK_ID is None:
+        # Otherwise - user click `predict`
+        NUM_ITERATION = num_iteration
+        NUM_EPOCH = num_epoch
+        TRAIN_CURRENT_TASK_ID = train_step_task.delay(num_iteration, num_epoch)
 
-    if save_res is not None:
-        pass # TODO: Give possobility to download image
+    if stop is not None and TRAIN_CURRENT_TASK_ID is not None:
+        TRAIN_CURRENT_TASK_ID.abort()
+        TRAIN_CURRENT_TASK_ID = None
+        IS_ABORTED = True
 
-    # Otherwise - user click `predict`
-    CURRENT_TASK_ID = predict_single.delay('test')
-    return {'task_id': str(CURRENT_TASK_ID), 'status': f"Processing predict: {predict}, save_res: {save_res}, clear: {clear}"}
-
-
+    return RedirectResponse(router.url_path_for('train_page'), status_code=status.HTTP_302_FOUND)

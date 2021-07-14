@@ -1,11 +1,84 @@
 {% extends 'base.html' %}
 
 {% block header %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <h1>{% block title %}Train page{% endblock %}</h1>
+    <a href="/" style="padding: 20px">Start Page</a>
+    <a href="../predict/" style="padding: 20px">Predict Page</a>
 {% endblock %}
 
 {% block content %}
-    <center>
-        <h1>Some code example</h1>
-    </center>
+    {% if need_to_update %}
+        <h3>Model is training right now...</h3>
+        <meta http-equiv="refresh" content="5">
+    {% elif is_aborted %}
+        <h3>Stop training of the model...</h3>
+    {% else %}
+        <h3>Enter parameters in order to start train</h3>
+    {% endif %}
+    <form method="post">
+        <div class="btn-group">
+            {% if need_to_update %}
+                <label for="num_iteration">Number of iterations: </label>
+                <input name="num_iteration" id="num_iteration" maxlength="3" class="small-lbl" value="{{ num_iteration_v }}"required><br>
+                <label for="num_epoch">Number of epochs: </label>
+                <input name="num_epoch" id="num_epoch" maxlength="2" class="small-lbl" value="{{ num_epoch_v }}" required>
+            {% else %}
+                <label for="num_iteration">Number of iterations: </label>
+                <input name="num_iteration" id="num_iteration" maxlength="3" class="small-lbl" required><br>
+                <label for="num_epoch">Number of epochs: </label>
+                <input name="num_epoch" id="num_epoch" maxlength="2" class="small-lbl" required>
+            {% endif %}
+        </div>
+        <div class="bottomwhitespace centre">
+            <div class="btn-group" id="btn-gr">
+                <input type="submit" id="start" value="Start" class="button" name="start">
+                <input type="submit" id="stop" value="Stop" class="button" name="stop">
+            </div>
+        </div>
+        <label for="log_window">Log Window</label>
+        <textarea name="log_window" id="log_window">{{ log_window }}</textarea>
+    </form>
+    <script>
+        // Block button div, if entered value is invalid
+        // Add error message element after input.
+        $('#num_iteration').after('<span class="error-message"> Please enter numbers only!</span>')
+
+        $('#num_iteration').on('input', function (evt) {
+          var value = evt.target.value
+
+          if (value.length === 0) {
+            evt.target.className = ''
+            return
+          }
+
+          if ($.isNumeric(value)) {
+            document.getElementById('btn-gr').style.pointerEvents = 'auto';
+            evt.target.className = 'valid'
+          } else {
+            document.getElementById('btn-gr').style.pointerEvents = 'none';
+            evt.target.className = 'invalid'
+          }
+        })
+
+        // Add error message element after input.
+        $('#num_epoch').after('<span class="error-message"> Please enter numbers only!</span>')
+
+        $('#num_epoch').on('input', function (evt) {
+          var value = evt.target.value
+
+          if (value.length === 0) {
+            evt.target.className = ''
+            return
+          }
+
+          if ($.isNumeric(value)) {
+            document.getElementById('btn-gr').style.pointerEvents = 'auto';
+            evt.target.className = 'valid'
+          } else {
+            document.getElementById('btn-gr').style.pointerEvents = 'none';
+            evt.target.className = 'invalid'
+          }
+        })
+    </script>
 {% endblock %}

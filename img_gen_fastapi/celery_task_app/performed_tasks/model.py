@@ -16,7 +16,7 @@ class WrapperModel:
     def _load_model_from_path(path):
         return None
 
-    def predict(self, data):
+    def predict(self, data, label_gen: int = 0):
         """
         Make batch prediction on list of preprocessed feature dicts.
         Returns class probabilities if 'return_options' is 'Prob', otherwise returns class membership predictions
