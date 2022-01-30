@@ -1,0 +1,54 @@
+version: "3"
+services:
+  redis:
+    image: redis:6-alpine
+
+  rabbitmq:
+    image: rabbitmq:3.8-alpine
+
+  worker:
+    build:
+      context: server/server_web
+    command: bash run_celery.sh
+    environment:
+      BROKER_URI: amqp://guest:guest@rabbitmq:5672
+      BACKEND_URI: redis://redis:6379/0
+    depends_on:
+      - server_backend
+      - redis
+      - rabbitmq
+
+  server_model:
+    container_name: model_module
+    build:
+      context: server/server_model
+      dockerfile: Dockerfile
+    volumes:
+      - ./server/server_web/static:/server_web_static
+    environment:
+      SERVER_MODEL_URL: server_model
+    ports:
+      - "2117:2117"
+
+  web_module:
+    container_name: web_module
+    build:
+      context: client
+      dockerfile: Dockerfile
+      args:
+        - IS_PROD=1
+    ports:
+      - "8080:8080"
+
+  server_backend:
+    container_name: backend_module
+    build:
+      context: server/server_web
+      dockerfile: Dockerfile
+    environment:
+      BROKER_URI: amqp://guest:guest@rabbitmq:5672
+      BACKEND_URI: redis://redis:6379/0
+    volumes:
+      - ./server/server_web/static:/static
+    ports:
+      - "3117:3117"

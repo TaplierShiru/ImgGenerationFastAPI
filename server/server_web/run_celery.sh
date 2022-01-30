@@ -1,0 +1,1 @@
+celery -A routers.celery_task_app.worker worker -l info --autoscale=2,5
