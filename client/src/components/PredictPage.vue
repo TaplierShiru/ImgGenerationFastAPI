@@ -16,6 +16,27 @@
         <button type="button" class="btn btn-secondary">Save Image</button>
       </div>
     </div>
+    <div class="row justify-content-md-center">
+      <select class="form-select" v-model="labelGeneration" aria-label="Select label to generate">
+        <option disabled value="">Choose generation label number between 0 and 9</option>
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+      </select>
+    </div>
+    <div v-if="isErrorChooseGenerationLabel" class="row justify-content-md-center"> 
+      <label id="error-choose-generation-label" 
+        class="alert alert-danger" role="alert">
+          Choose number to generate.
+      </label>
+    </div>
   </div>
 </template>
 <script>
@@ -30,12 +51,23 @@ export default {
     setup(){
       const imgUrl = ref(null);
       const isGenerateInProcess = ref(false);
+      const labelGeneration = ref(null);
+      const isErrorChooseGenerationLabel = ref(false);
 
       async function generateImage(){
+          // check if label is num between certain number
+          const lbl = parseInt(labelGeneration.value);
+          if (isNaN(lbl) || lbl < 0 || lbl > 9){
+            // Bad input number
+            isErrorChooseGenerationLabel.value = true;
+            return;
+          }
+          // All good
+          isErrorChooseGenerationLabel.value = false;
           // Send message to generate new img to server
           // Generation can take some time 
           // So we must wait answer from server then its ready
-          axios.post(`${config.serverUrl}/predict`, { label: 0 }).then(
+          axios.post(`${config.serverUrl}/predict`, { label: lbl }).then(
             (response) => {
               console.log(response);
               isGenerateInProcess.value = true;
@@ -68,6 +100,8 @@ export default {
       }
 
       return {
+        labelGeneration,
+        isErrorChooseGenerationLabel,
         imgUrl,
         isGenerateInProcess,
         generateImage,
