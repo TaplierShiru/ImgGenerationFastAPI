@@ -1,25 +1,44 @@
-import os
 import traceback
 import xmlrpc.client
 from typing import Optional
 
+from .utils import SERVER_PORT, SERVER_IP
+
 
 # Connect to server with model
 class ModelClient:
-    if os.environ.get('SERVER_MODEL_URL') is not None:
-        SERVER_IP = os.environ.get('SERVER_MODEL_URL')
-    else:
-        SERVER_IP = '127.0.0.1'
-    SERVER_PORT = 2117
 
-    def __init__(self):
-        self._server_rcp = xmlrpc.client.ServerProxy(
-            f'http://{ModelClient.SERVER_IP}:{ModelClient.SERVER_PORT}'
+    @staticmethod
+    def set_connection():
+        return xmlrpc.client.ServerProxy(
+            f'http://{SERVER_IP}:{SERVER_PORT}'
         )
 
-    def get_prediction(self, label: int) -> Optional[str]:
+    def __init__(self):
+        self._server_rcp = ModelClient.set_connection()
+
+    def get_prediction(self, label: int, model_name: str) -> Optional[str]:
         try:
-            return self._server_rcp.get_prediction(label)
+            return self._server_rcp.get_prediction(label, model_name)
         except Exception as ex:
             traceback.print_exc()
             return
+
+    @staticmethod
+    def static_get_all_model_names():
+        try:
+            server_rcp = ModelClient.set_connection()
+            return server_rcp.get_all_model_names()
+        except Exception as ex:
+            traceback.print_exc()
+            return
+
+    @staticmethod
+    def static_get_model_label_array(model_name: str):
+        try:
+            server_rcp = ModelClient.set_connection()
+            return server_rcp.get_label_array(model_name)
+        except Exception as ex:
+            traceback.print_exc()
+            return
+

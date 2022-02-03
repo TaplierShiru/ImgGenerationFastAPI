@@ -137,7 +137,7 @@ export default {
 
 .button-add {
   position: fixed;
-  bottom: 0px;
+  bottom: 10%;
   right: 0px;
 }
 

@@ -1,0 +1,20 @@
+{
+  "digit generator": {
+    "path": "onnx_model/models/simple_cgan_label_and_noise/onnx_models/model.onnx",
+    "labels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "noise_dim": 100,
+    "type": "ModelSimpleCGANLN"
+  },
+  "better digit generator": {
+    "path": "onnx_model/models/simple_cgan_label_and_noise/onnx_models/model_better.onnx",
+    "labels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "noise_dim": 100,
+    "type": "ModelSimpleCGANLN"
+  },
+  "fashion generator": {
+    "path": "onnx_model/models/simple_cgan_noise_and_label/onnx_models/model_fashion.onnx",
+    "labels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "noise_dim": 128,
+    "type": "ModelSimpleCGANNL"
+  }
+}

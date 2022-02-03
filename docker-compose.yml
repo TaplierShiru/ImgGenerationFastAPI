@@ -48,7 +48,18 @@ services:
     environment:
       BROKER_URI: amqp://guest:guest@rabbitmq:5672
       BACKEND_URI: redis://redis:6379/0
+      DB_URL: mariadb+mariadbconnector://root:lkdawd+2dawpd20@localhost:3306
     volumes:
       - ./server/server_web/static:/static
     ports:
       - "3117:3117"
+
+  db:
+    image: mariadb:10
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: lkdawd+2dawpd20
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./server/server_web/routers/database/data/mysql:/var/lib/mysql

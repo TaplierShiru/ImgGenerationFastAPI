@@ -35,3 +35,5 @@ pyparsing==3.0.6
 pycparser==2.21
 aiofiles==0.7.0
 Pillow==9.0.0
+SQLAlchemy==1.4.31
+PyMySQL==1.0.2

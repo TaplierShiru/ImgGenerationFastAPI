@@ -46,7 +46,13 @@ After that, you need to start Celery itself.
 
 Go to folder `server/server_web` and run workers with Celery:
 
+Linux:
+
 `celery -A routers.celery_task_app.worker worker -l info`
+
+Windows:
+
+`celery -A routers.celery_task_app.worker worker -l info -P gevent`
 
 #### ***Problem with Celery on Windows***
 ##### ***Solution 1***

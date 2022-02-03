@@ -19,10 +19,9 @@ class UserData(BaseModel):
 @router.post("/enter")
 async def enter_func(userdata: UserData, request: Request):
     log.debug(f"Enter username={userdata.username} with password={userdata.password}.")
-    result = DataBaseController.is_exist(username=userdata.username, password=userdata.password)
+    result = DataBaseController.is_exist(username=userdata.username)
     role = DataBaseController.get_user_role(username=userdata.username)
-    token = DataBaseController.get_user_token(username=userdata.username)
-    return { "result": result, 'role': role, 'token': token }
+    return { "result": result, 'role': role }
 
 
 @router.post("/register")
@@ -31,15 +30,13 @@ async def register_func(userdata: UserData, request: Request):
     if result:
         log.debug(f"Register username={userdata.username} with password={userdata.password}.")
         role = DataBaseController.get_user_role(username=userdata.username)
-        token = DataBaseController.get_user_token(username=userdata.username)
         log.debug(f"Register with role={userdata.username} and with token={userdata.password}.")
     else:
         log.debug(f"Do not register username={userdata.username} with password={userdata.password}.")
         # User already exist
         role = None
-        token = None
 
-    return { "result": result, 'role': role, 'token': token }
+    return { "result": result, 'role': role }
 
 
 class UserNameRoleData(BaseModel):
@@ -50,7 +47,7 @@ class UserNameRoleData(BaseModel):
 @router.post('/delete')
 async def delete_user(userdata: UserNameRoleData, request: Request):
     log.debug(f"Delete user with username={userdata.username} with role={userdata.role}")
-    result = DataBaseController.remove_user(username=userdata.username, role=userdata.role)
+    result = DataBaseController.remove_user(username=userdata.username)
     return { 'result': result }
 
 

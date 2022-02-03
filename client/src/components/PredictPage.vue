@@ -1,5 +1,13 @@
 <template lang="">
   <div class="container">
+    <br>
+    <div class="row justify-content-md-center">
+      <select v-model="selectedModelName">
+        <option v-for="modelName in modelNamesArray" :key="modelName">
+          {{ modelName }}
+        </option>
+      </select>
+    </div>
     <div class="row justify-content-md-center">
       <transition name="image-generated" tag="div" mode="out-in">
         <img v-if="imgUrl" :src="imgUrl"/>
@@ -18,17 +26,10 @@
     </div>
     <div class="row justify-content-md-center">
       <select class="form-select" v-model="labelGeneration" aria-label="Select label to generate">
-        <option disabled value="">Choose generation label number between 0 and 9</option>
-        <option>0</option>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-        <option>6</option>
-        <option>7</option>
-        <option>8</option>
-        <option>9</option>
+        <option disabled value="">Choose generation label number</option>
+        <option v-for="labelNumber in labelArray" :key="labelNumber">
+          {{ labelNumber }}
+        </option>
       </select>
     </div>
     <div v-if="isErrorChooseGenerationLabel" class="row justify-content-md-center"> 
@@ -40,10 +41,11 @@
   </div>
 </template>
 <script>
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
 import config from '../_helpers/config';
 import b64toBlob from '../_helpers/b64toblob';
+import { getAllModelNamesFromServer, getLabelNames } from '../_services/model.service';
 
 
 export default {
@@ -53,11 +55,19 @@ export default {
       const isGenerateInProcess = ref(false);
       const labelGeneration = ref(null);
       const isErrorChooseGenerationLabel = ref(false);
+      const modelNamesArray = ref([]);
+      const selectedModelName = ref(null);
+      const labelArray = ref([]);
+
+      // At the start of the page (after loaded)
+      onMounted(async () => {
+        modelNamesArray.value = await getAllModelNamesFromServer();
+      });
 
       async function generateImage(){
           // check if label is num between certain number
           const lbl = parseInt(labelGeneration.value);
-          if (isNaN(lbl) || lbl < 0 || lbl > 9){
+          if (isNaN(lbl) || lbl < 0 || lbl > 9 || selectedModelName.value === null){
             // Bad input number
             isErrorChooseGenerationLabel.value = true;
             return;
@@ -67,7 +77,7 @@ export default {
           // Send message to generate new img to server
           // Generation can take some time 
           // So we must wait answer from server then its ready
-          axios.post(`${config.serverUrl}/predict`, { label: lbl }).then(
+          axios.post(`${config.serverUrl}/predict`, { label: lbl, model_name: selectedModelName.value }).then(
             (response) => {
               console.log(response);
               isGenerateInProcess.value = true;
@@ -99,11 +109,21 @@ export default {
           )
       }
 
+      async function updateLabelNames(){
+        labelArray.value = await getLabelNames(selectedModelName.value);
+      }
+
+      watch(selectedModelName, updateLabelNames)
+
       return {
         labelGeneration,
+        labelArray,
+        selectedModelName,
+        modelNamesArray,
         isErrorChooseGenerationLabel,
         imgUrl,
         isGenerateInProcess,
+        updateLabelNames,
         generateImage,
       }
     }
