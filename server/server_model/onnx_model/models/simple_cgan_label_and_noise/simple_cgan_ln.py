@@ -22,7 +22,7 @@ class ModelSimpleCGANLN(BaseModel):
         }
         ort_outs = self._ort_session.run(None, ort_inputs)
         final_img = np.squeeze(ort_outs[0]) # First out, first batch
-        final_img = ((final_img + 1) * 128).astype(np.uint8).clip(0, 255)
+        final_img = ((final_img + 1) * 128).clip(0, 255).astype(np.uint8)
         final_img = Image.fromarray(final_img, mode='L') # black/white colors
         final_img = final_img.convert("RGB")
         final_img = final_img.resize((224, 224))

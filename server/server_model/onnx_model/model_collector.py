@@ -1,4 +1,4 @@
-from .models import BaseModel, ModelSimpleCGANLN, ModelSimpleCGANNL
+from .models import BaseModel, ModelSimpleCGANLN, ModelSimpleCGANNL, ModelSimpleCGANLNRGB
 from typing import Dict, Optional
 
 
@@ -6,6 +6,7 @@ class ModelCollector:
     MODEL_NAME2CLASS: Dict[str, BaseModel] = {
         ModelSimpleCGANLN.__name__: ModelSimpleCGANLN,
         ModelSimpleCGANNL.__name__: ModelSimpleCGANNL,
+        ModelSimpleCGANLNRGB.__name__: ModelSimpleCGANLNRGB,
     }
 
     @staticmethod

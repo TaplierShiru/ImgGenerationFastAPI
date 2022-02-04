@@ -25,3 +25,7 @@ python -m tf2onnx.convert --saved-model tensorflow-model-path --output model.onn
 ```
 
 For additional info - refer to origin github.
+
+## Examples of training
+You can check other folders in this folder in order to look at the examples. Each folder include `README.md`
+file which will explain some things.
