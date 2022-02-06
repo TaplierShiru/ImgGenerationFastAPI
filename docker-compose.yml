@@ -13,20 +13,20 @@ services:
     environment:
       BROKER_URI: amqp://guest:guest@rabbitmq:5672
       BACKEND_URI: redis://redis:6379/0
+      SERVER_MODEL_URL: server_model
     depends_on:
+      - server_model
       - server_backend
       - redis
       - rabbitmq
 
   server_model:
-    container_name: model_module
+    container_name: server_model
     build:
       context: server/server_model
       dockerfile: Dockerfile
     volumes:
       - ./server/server_web/static:/server_web_static
-    environment:
-      SERVER_MODEL_URL: server_model
     ports:
       - "2117:2117"
 
@@ -41,18 +41,24 @@ services:
       - "8080:8080"
 
   server_backend:
-    container_name: backend_module
+    container_name: server_backend
     build:
       context: server/server_web
       dockerfile: Dockerfile
     environment:
       BROKER_URI: amqp://guest:guest@rabbitmq:5672
       BACKEND_URI: redis://redis:6379/0
-      DB_URL: mariadb+mariadbconnector://root:lkdawd+2dawpd20@localhost:3306
+      DB_URL: mariadb+mariadbconnector://root:lkdawd+2dawpd20@db:3306
+      USERNAME: root
+      MYSQL_ROOT_PASSWORD: lkdawd+2dawpd20
+      SERVER_MODEL_URL: server_model
     volumes:
-      - ./server/server_web/static:/static
+      - ./server/server_web/static:/app/static
     ports:
       - "3117:3117"
+    depends_on:
+      - db
+      - server_model
 
   db:
     image: mariadb:10

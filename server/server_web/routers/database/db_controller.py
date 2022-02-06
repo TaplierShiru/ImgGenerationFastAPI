@@ -8,12 +8,6 @@ from .utils import create_engine, get_hash, ROLE_USER, ROLE_ADMIN
 from .tables import Base, User
 
 
-# Debug
-USERS = {
-    'admin': { 'role': 'admin', 'password': 'admin', 'token': 'admin-token'},
-    'user': { 'role': 'user', 'password': 'user', 'token': 'user-token' },
-}
-
 ENGINE = create_engine()
 # Create tables
 Base.metadata.create_all(ENGINE)

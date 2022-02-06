@@ -1,3 +1,8 @@
+# db
+server/server_web/routers/database/data/mysql_debug/*
+server/server_web/routers/database/data/mysql/*
+
+
 # IDE
 .idea
 

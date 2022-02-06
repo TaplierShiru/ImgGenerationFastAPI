@@ -19,7 +19,11 @@ Here is simple diagram for this system:
 
 # How to start
 ## Simple solution (aka ***production*** )
-Run docker-compose file: `docker-compose.yml`
+Run docker-compose file `docker-compose.yml` with command:
+
+```
+docker-compose -f docker-compose.yml up
+```
 
 If you want test it locally - run docker as it is.
 If you want to start ***real*** server, then you need to modify some variables:
