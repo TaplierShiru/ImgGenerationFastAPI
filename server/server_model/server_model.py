@@ -19,7 +19,7 @@ with SimpleXMLRPCServer(
 
     # Register pow() function; this will use the value of
     # pow.__name__ as the name, which is just 'pow'.
-    server.register_function(MODEL.predict, 'get_prediction')
+    server.register_function(MODEL.make_prediction)
     server.register_function(ConfigInspector.get_all_model_names)
     server.register_function(ConfigInspector.get_label_array)
 

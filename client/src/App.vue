@@ -47,7 +47,7 @@ export default {
       if (currentUser.value){
         return currentUser.value.username;
       }
-      return 'None';
+      return 'Unknown';
     });
 
     function logout(){

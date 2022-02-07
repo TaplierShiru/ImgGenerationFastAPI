@@ -56,6 +56,7 @@ import axios from 'axios';
 import config from '../_helpers/config';
 import b64toBlob from '../_helpers/b64toblob';
 import { getAllModelNamesFromServer, getLabelNames } from '../_services/model.service';
+import { authenticationService } from '../_services/authentication.service';
 
 
 export default {
@@ -97,8 +98,11 @@ export default {
           // Send message to generate new img to server
           // Generation can take some time 
           // So we must wait answer from server then its ready
-          axios.post(`${config.serverUrl}/predict`, { label: lbl, model_name: selectedModelName.value }).then(
-            (response) => {
+          axios.post(`${config.serverUrl}/predict`, { 
+            label: lbl, 
+            model_name: selectedModelName.value,
+            username: authenticationService.currentUserNameValue
+          }).then((response) => {
               console.log(response);
               // Show message that generation in process
               isGenerateInProcess.value = true;
@@ -109,7 +113,9 @@ export default {
                 // TODO: Fix number of requests
                 let checkStatusImage = setTimeout( // eslint-disable-line no-unused-vars
                   function checkImage() {
-                    axios.get(`${config.serverUrl}/predict/take_result`).then(
+                    axios.post(`${config.serverUrl}/predict/take_result`, {
+                      username: authenticationService.currentUserNameValue
+                    }).then(
                       (response) => {
                         if (response.data.imageUrl){
                           // Convert sended image to url
@@ -133,11 +139,11 @@ export default {
           )
       }
 
-      // After 
+      // Each model have own set of labels
       async function updateLabelNames(){
         labelArray.value = await getLabelNames(selectedModelName.value);
       }
-
+      // Update array of possible labels for chosen model
       watch(selectedModelName, updateLabelNames)
 
       return {

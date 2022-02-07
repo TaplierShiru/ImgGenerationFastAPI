@@ -4,13 +4,12 @@ import config from '../_helpers/config';
 
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
-var error_message = null;
 
 export const authenticationService = {
     login, register, logout,
     currentUser: currentUserSubject.asObservable(),
     get currentUserValue() { return currentUserSubject.value },
-    get errorMessage() { return error_message }
+    get currentUserNameValue() { return currentUserSubject.value.username }
 };
 
 async function login(username, password){
@@ -23,7 +22,7 @@ async function login(username, password){
         if (response.data.result){
             // User can log in
             user = {
-                username: username, role: response.data.role, token: response.data.token,
+                username: username, role: response.data.role
             };
             // Save data and update subject
             console.log(`Enter user with: ${JSON.stringify(user)}`);
@@ -37,30 +36,41 @@ async function login(username, password){
 }
 
 async function register(username, password, passwordSecond){
-    if (username == null || password == null || passwordSecond == null){
-        error_message = 'One of the field does not filled';
-        return null;
+
+    let result = {
+        status: false,
+        errorMessage: '',
     }
 
+    // Check, each field must be with some string
+    if (!username || !password || !passwordSecond){
+        result.errorMessage = 'One of the fields does not filled.';
+        return result;
+    }
+    // Check, password and second password must be the same
     if (password !== passwordSecond){
-        error_message = 'Passwords does not equal';
-        return null;
+        result.errorMessage = 'Passwords does not equal.';
+        return result;
     }
-    // We must send auth data to server and get some response, for now do this simply
-    let isAllGood = false;
-
+    // We must send auth data to server and get some response
     await axios.post(`${config.serverUrl}/users/register`, {
         username: username, password: password,
     }).then((response) => {
         if (response.data.result){
             // User register success
             console.log(`Register user with: ${JSON.stringify(response.data)}`);
-            isAllGood = true;
+            result.status = true;
+        } else {
+            result.errorMessage = response.data.resultInfo;
+            result.status = false;
         }
     }).catch(
-        (error) => { console.log(error); }
+        (error) => { 
+            console.log(error);
+            result.errorMessage = "Can't connect to server."; 
+        }
     );
-    return isAllGood;
+    return result;
 }
 
 function logout() {

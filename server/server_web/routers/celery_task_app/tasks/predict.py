@@ -40,14 +40,14 @@ class PredictTask(Task):
           base=PredictTask,
           path=('routers.celery_task_app.performed_tasks.model_client', 'ModelClient'),
           name='{}.{}'.format(__name__, 'MClient'))
-def predict_single(self, label_gen: int, model_name: str):
+def predict_single(self, label_gen: int, model_name: str, prefix_to_save: str = "img"):
     """
     Essentially the run method of PredictTask
     """
-    logger.info(f"Start prediction with label_gen={label_gen} and model_name={model_name}")
-    path_saved = self.model.get_prediction(label_gen, model_name)
+    logger.info(f"Start prediction with label_gen={label_gen} model_name={model_name} prefix_to_save={prefix_to_save}")
+    path_saved = self.model.make_prediction(label_gen, model_name, prefix_to_save)
     if path_saved is None:
-        logger.info("Error in prediction!!!")
-    logger.info("Return prediction...")
+        logger.info("Error in prediction...")
+    logger.info(f"Return prediction with path_saved={path_saved}...")
     return path_saved
 

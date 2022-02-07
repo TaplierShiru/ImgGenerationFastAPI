@@ -7,15 +7,14 @@
     <input type="password" placeholder="Enter Password" name="psw" v-model="password" required>
 
     <button type="submit" @click="logIn">Login</button>
-    <p>New user? <a href="/register" class="text-dark">Create new account</a></p>
     <label v-if="is_error_enter" id="error-enter" class="alert alert-danger" role="alert">Wrong username or password.</label>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
-import { authenticationService } from '../../_services/authentication.service'
-import router from '../../_helpers/router';
+import { authenticationService } from '../_services/authentication.service'
+import router from '../_helpers/router';
 
 export default {
   name: 'LoginPage',

@@ -12,8 +12,15 @@ RabbitMQ:
 Server:
 `uvicorn app:app`
 
-Workers with Celery:
+## Workers with Celery
+
+Linux:
+
 `celery -A routers.celery_task_app.worker worker -l info`
+
+Windows:
+
+`celery -A routers.celery_task_app.worker worker -l info -P gevent`
 
 # Problem with Celery on Windows
 ### Solution 1

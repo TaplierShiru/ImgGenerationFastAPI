@@ -33,7 +33,7 @@ Thats it!
 
 After that you need to open two ports: 8080 (for front-end) and 3117 (for backend).
 
-## Hard solution (aka ***develope***)
+## Hard solution (aka ***develop mode***)
 For this case, you need start several things before application.
 
 ### Step 1. Start Celery broker and backend

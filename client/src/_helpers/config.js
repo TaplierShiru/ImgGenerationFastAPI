@@ -1,10 +1,13 @@
 
-// TODO: Here may be some problem with access, need to test it
-let serverUrl = `${location.protocol}//${location.hostname}:3117`;
+// By default, sever have 3117 port
+const SERVER_PORT = 3117
+
 
 const config = {
+    // Url for client side
     apiUrl: location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : ''),
-    serverUrl: serverUrl,
+    // Url for server side
+    serverUrl: `${location.protocol}//${location.hostname}:${SERVER_PORT}`,
 };
 
 

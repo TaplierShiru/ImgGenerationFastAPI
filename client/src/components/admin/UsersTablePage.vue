@@ -13,11 +13,11 @@
         <input type="password" placeholder="Repeat Password" name="psw-repeat" v-model="passwordRepeat" required><hr>
         <div class="d-flex justify-content-center">
           <button class="btn btn-success" @click="addNewUser()">Create account</button>
-          <button class="btn btn-danger" @click="addUserClick()">Back</button>
+          <button class="btn btn-danger" @click="switchBetweenUserTableAndCreateAccount()">Back</button>
         </div>
         <label v-if="isErrorEnter" id="error-enter" 
           class="alert alert-danger" role="alert">
-            Wrong username or password.
+            {{ errorMessage }}
         </label>
       </div>
       <div v-else-if="!addUser">
@@ -32,13 +32,21 @@
               <th scope="row" :key="`row-${userData.username}`">{{ index }}</th>
               <td :key="`row-username-${userData.username}`">{{ userData.username }}</td>
               <td :key="`row-role-${userData.username}`">{{ userData.role }}</td>
-              <td :key="`row-td-btn-delete-${userData.username}`"><button class="btn btn-danger" 
-                  :key="`row-btn-delete--${userData.username}`" @click="removeUserRow(index)">Delete
-              </button></td>
+              <td :key="`row-td-btn-delete-${userData.username}`">
+                <button class="btn btn-danger" v-if="userData.role == adminRoleName" 
+                  :key="`row-btn-delete--${userData.username}`" @click="removeUserRow(index)" disabled>
+                  Delete
+                </button>
+                <button class="btn btn-danger" v-else 
+                  :key="`row-btn-delete--${userData.username}`" @click="removeUserRow(index)">
+                  Delete
+                </button>
+
+              </td>
             </tr>
           </transition-group>
         </table>
-        <button class="button-add btn btn-success" @click="addUserClick()">Add new user</button>
+        <button class="button-add btn btn-success" @click="switchBetweenUserTableAndCreateAccount()">Add new user</button>
       </div>
     </transition>
 </template>
@@ -46,6 +54,8 @@
 import { ref, onMounted } from 'vue';
 import { getAllUsersFromServer, removeUser } from '../../_services/users.service';
 import { authenticationService } from '../../_services/authentication.service'
+import Role from '../../_helpers/role'; // no-unused-vars
+
 
 export default {
     name: 'UsersTablePage',
@@ -56,16 +66,18 @@ export default {
         const userDataArray = ref([]);
         const addUser = ref(false);
         const isErrorEnter = ref(false);
+        const errorMessage = ref('');
         const password = ref(null);
         const passwordRepeat = ref(null);
         const username = ref(null);
+        const adminRoleName = ref(Role.Admin);
 
         // At the start of the page (after loaded)
         onMounted(async () => {
           userDataArray.value = await getAllUsersFromServer();
         });
 
-        function removeUserRow(index){
+        function removeUserRow(index) {
           console.log(index);
           const username = userDataArray.value[index].username; 
           const role = userDataArray.value[index].role;
@@ -75,36 +87,42 @@ export default {
           removeUser(username, role);
         }
 
-        function addUserClick(){
+        function switchBetweenUserTableAndCreateAccount() {
           addUser.value = !addUser.value;
         }
 
-        async function addNewUser(){
+        async function addNewUser() {
           let resRegister = await authenticationService.register(username.value, password.value, passwordRepeat.value);
-          if (resRegister){
+          if (resRegister.status) {
             // All good - user registered
             userDataArray.value = await getAllUsersFromServer();
-            addUserClick();
+            // Close creation of user
+            switchBetweenUserTableAndCreateAccount();
+            // Hide error if its occure before
             isErrorEnter.value = false;
+            // Clear all fields
             username.value = null;
             password.value = null;
             passwordRepeat.value = null;
-          } else{
+          } else {
             // Something go wrong, Show error message
             isErrorEnter.value = true;
+            errorMessage.value = resRegister.errorMessage;
           }
         }
 
         return {
             addUser,
-            addUserClick,
+            switchBetweenUserTableAndCreateAccount,
             addNewUser,
             userDataArray,
             username,
             password,
             passwordRepeat,
             isErrorEnter,
+            errorMessage,
             removeUserRow,
+            adminRoleName,
         }
     },
 }

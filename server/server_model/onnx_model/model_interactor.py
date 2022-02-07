@@ -28,14 +28,14 @@ class ModelInteractor:
         self._model = ModelCollector.init_model_by_name(model_config_dict)
         self._prev_model_name = name
 
-    def predict(self, label: int, model_name: str) -> Optional[str]:
+    def make_prediction(self, label: int, model_name: str, prefix_to_save: str = 'img') -> Optional[str]:
         self._load_model(model_name)
         if self._model is None:
             return
 
         final_img: Image = self._model.predict(label)
         # Save img and return file name
-        file_name = "generation_res.png"
+        file_name = f"{prefix_to_save}_generation_res.png"
         save_path = os.path.join(PATH_TO_SAVE_FOLDER, file_name)
         final_img.save(save_path)
         return file_name

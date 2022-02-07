@@ -17,9 +17,9 @@ class ModelClient:
     def __init__(self):
         self._server_rcp = ModelClient.set_connection()
 
-    def get_prediction(self, label: int, model_name: str) -> Optional[str]:
+    def make_prediction(self, label: int, model_name: str, prefix_to_save: str) -> Optional[str]:
         try:
-            return self._server_rcp.get_prediction(label, model_name)
+            return self._server_rcp.make_prediction(label, model_name, prefix_to_save)
         except Exception as ex:
             traceback.print_exc()
             return

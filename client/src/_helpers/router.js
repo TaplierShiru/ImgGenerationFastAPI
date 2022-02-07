@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { authenticationService } from '../_services/authentication.service';
-import LoginPage from '../components/enterComp/LoginPage.vue';
-import RegisterPage from '../components/enterComp/RegisterPage.vue';
+import LoginPage from '../components/LoginPage.vue';
 import MainPage from '../components/MainPage.vue';
 import PredictPage from '../components/PredictPage.vue';
 import UsersTablePage from '../components/admin/UsersTablePage.vue';
@@ -15,11 +14,6 @@ const routes = [
     path: '/',
     name: 'LoginPage',
     component: LoginPage,
-  },
-  {
-    path: '/register',
-    name: 'RegisterPage',
-    component: RegisterPage,
   },
   {
     path: '/menu',
