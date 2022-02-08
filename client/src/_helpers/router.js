@@ -45,7 +45,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   // If user do not log in - redirect to login page
   const { authorize } = to.meta;
   const currentUser = authenticationService.currentUserValue;
@@ -53,17 +53,22 @@ router.beforeEach((to, from, next) => {
   if (authorize){
     if (!currentUser){
       // User is not logint - redirect to enter page
-      return next({ path: '/', query: {returnUrl: to.path} });
+      return { path: '/', query: { returnUrl: to.path}};
     }
 
     // Login by certain role
     if (authorize.length && !authorize.includes(currentUser.role)){
       // Role is not authorised - redirect to enter page
-      return next({ path: '/' });
+      return { path: '/' };
     }
   }
-
-  next();
+  // If user is logIn before and go to enter page - redirect him to menu page
+  // Dodge loop redirection via checking to.path, 
+  // i.e. can be case where to.path == '/menu' and user again redirect to '/menu'
+  // which will cause infinity loop, so dodge that using the last comparison
+  if (currentUser && to.path == '/'){
+    return { path: '/menu'};
+  }
 
 });
 

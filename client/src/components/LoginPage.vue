@@ -25,7 +25,6 @@ export default {
     async function logIn() {
       const userResult = await authenticationService.login(username.value, password.value);
       if (userResult) {
-        console.log("Good log/pass!");
         router.push('/menu');
         // window.location.href = '/menu';
       } else {

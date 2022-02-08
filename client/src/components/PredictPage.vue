@@ -88,8 +88,8 @@ export default {
       async function generateImage(){
           // check if label is num between certain number
           const lbl = parseInt(labelGeneration.value);
-          if (isNaN(lbl) || lbl < 0 || lbl > 9 || selectedModelName.value === null){
-            // Bad input number
+          if (isNaN(lbl) || selectedModelName.value === null){
+            // Empty label
             isErrorChooseGenerationLabel.value = true;
             return;
           }
@@ -103,7 +103,6 @@ export default {
             model_name: selectedModelName.value,
             username: authenticationService.currentUserNameValue
           }).then((response) => {
-              console.log(response);
               // Show message that generation in process
               isGenerateInProcess.value = true;
               // Clear previous image

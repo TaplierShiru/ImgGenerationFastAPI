@@ -25,7 +25,6 @@ async function login(username, password){
                 username: username, role: response.data.role
             };
             // Save data and update subject
-            console.log(`Enter user with: ${JSON.stringify(user)}`);
             localStorage.setItem('currentUser', JSON.stringify(user));
             currentUserSubject.next(user);
         }
@@ -58,7 +57,6 @@ async function register(username, password, passwordSecond){
     }).then((response) => {
         if (response.data.result){
             // User register success
-            console.log(`Register user with: ${JSON.stringify(response.data)}`);
             result.status = true;
         } else {
             result.errorMessage = response.data.resultInfo;

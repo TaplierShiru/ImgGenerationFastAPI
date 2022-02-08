@@ -7,10 +7,8 @@ export async function getAllModelNamesFromServer(){
 
     await axios.get(`${config.serverUrl}/predict/get_all_model_names`).then(
       (response) => {
-        console.log(arrayModels);
         if (response.data.result){
             arrayModels = response.data.modelNamesArray;
-            console.log(arrayModels);
         }
     }).catch(
       (error) => console.log(error)
@@ -26,7 +24,6 @@ export async function getLabelNames(modelName){
     (response) => {
       if (response.data.result){
           modelLabelArray = response.data.modelLabelArray;
-          console.log(modelLabelArray);
       }
   }).catch(
     (error) => console.log(error)

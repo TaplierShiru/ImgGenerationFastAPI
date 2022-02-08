@@ -1,6 +1,6 @@
 <template lang="">
     <transition name="add-user-form" mode="out-in">
-      <div id="create-user-form" v-if="addUser" class="d-flex justify-content-center flex-column">
+      <div id="create-user-form" v-if="isShownAddUserPage" class="d-flex justify-content-center flex-column">
         <h1>Create new user account</h1>
         <p class="font-weight-bold">Please fill in this form to create an account</p><hr>
         <label for="username"><b>Username</b></label><br>
@@ -15,12 +15,13 @@
           <button class="btn btn-success" @click="addNewUser()">Create account</button>
           <button class="btn btn-danger" @click="switchBetweenUserTableAndCreateAccount()">Back</button>
         </div>
-        <label v-if="isErrorEnter" id="error-enter" 
-          class="alert alert-danger" role="alert">
+        <transition name="cfade" tag="div">
+          <label class="alert alert-danger" role="alert" v-if="isErrorEnter">
             {{ errorMessage }}
-        </label>
+          </label>
+        </transition>
       </div>
-      <div v-else-if="!addUser">
+      <div v-else-if="!isShownAddUserPage">
         <table class="table">
           <thead><tr>
             <th scope="col">#</th>
@@ -29,7 +30,7 @@
           </tr></thead>
           <transition-group name="users" tag="tbody">
             <tr v-for="(userData, index) in userDataArray" :key="userData.username">
-              <th scope="row" :key="`row-${userData.username}`">{{ index }}</th>
+              <th scope="row" :key="`row-${userData.username}`">{{ index + 1 }}</th>
               <td :key="`row-username-${userData.username}`">{{ userData.username }}</td>
               <td :key="`row-role-${userData.username}`">{{ userData.role }}</td>
               <td :key="`row-td-btn-delete-${userData.username}`">
@@ -41,7 +42,6 @@
                   :key="`row-btn-delete--${userData.username}`" @click="removeUserRow(index)">
                   Delete
                 </button>
-
               </td>
             </tr>
           </transition-group>
@@ -64,21 +64,26 @@ export default {
         // Single element - { username: 'Username', role: 'Role' }
         // Username - unique value
         const userDataArray = ref([]);
-        const addUser = ref(false);
+        // If false - will shown table of all users, otherwise page where admin can add new user
+        const isShownAddUserPage = ref(false);
+        // If true - will be shown error message
         const isErrorEnter = ref(false);
+        // Error messsage if some error occure
         const errorMessage = ref('');
+        // Field to fill in order to add new user
         const password = ref(null);
         const passwordRepeat = ref(null);
         const username = ref(null);
+        // Constants for further usage
         const adminRoleName = ref(Role.Admin);
 
-        // At the start of the page (after loaded)
+        // At the start of the page (after page is loaded)
         onMounted(async () => {
+          // Update table of users
           userDataArray.value = await getAllUsersFromServer();
         });
 
         function removeUserRow(index) {
-          console.log(index);
           const username = userDataArray.value[index].username; 
           const role = userDataArray.value[index].role;
           // Cut single element in view
@@ -88,7 +93,7 @@ export default {
         }
 
         function switchBetweenUserTableAndCreateAccount() {
-          addUser.value = !addUser.value;
+          isShownAddUserPage.value = !isShownAddUserPage.value;
         }
 
         async function addNewUser() {
@@ -112,7 +117,7 @@ export default {
         }
 
         return {
-            addUser,
+            isShownAddUserPage,
             switchBetweenUserTableAndCreateAccount,
             addNewUser,
             userDataArray,
@@ -174,6 +179,26 @@ export default {
 }
 
 .add-user-form-leave-to {
+  opacity: 0;
+}
+
+
+.cfade-enter-active {
+  opacity: 0;
+  transition: all 1.0s;
+}
+
+.cfade-enter-to {
+  opacity: 1;
+}
+
+
+.cfade-leave-active {
+  opacity: 1;
+  transition: all 1.0s;
+}
+
+.cfade-leave-to {
   opacity: 0;
 }
 
