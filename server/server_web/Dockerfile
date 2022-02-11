@@ -7,4 +7,6 @@ COPY ./requirements.txt ./requirements.txt
 RUN ["pip", "install", "--no-cache-dir", "-r", "requirements.txt"]
 COPY . .
 EXPOSE 3117
+RUN ["chmod", "+x", "./wait-for-mariadb.sh"]
+RUN ["chmod", "+x", "./run_celery.sh"]
 CMD ["./wait-for-mariadb.sh", "db", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "3117"]
