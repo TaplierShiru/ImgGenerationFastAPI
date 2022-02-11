@@ -27,8 +27,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./server/server_web/static:/server_web_static
-    ports:
-      - "2117:2117"
 
   web_module:
     container_name: web_module
@@ -38,7 +36,7 @@ services:
       args:
         - IS_PROD=1
     ports:
-      - "8080:8080"
+      - "21665:8080"
 
   server_backend:
     container_name: server_backend
@@ -55,7 +53,7 @@ services:
     volumes:
       - ./server/server_web/static:/app/static
     ports:
-      - "3117:3117"
+      - "21666:3117"
     depends_on:
       - db
       - server_model
@@ -65,7 +63,5 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: lkdawd+2dawpd20
-    ports:
-      - "3306:3306"
     volumes:
       - ./server/server_web/routers/database/data/mysql:/var/lib/mysql

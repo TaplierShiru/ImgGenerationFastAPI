@@ -1,6 +1,6 @@
 
 // By default, sever have 3117 port
-const SERVER_PORT = 3117
+const SERVER_PORT = 21666
 
 
 const config = {
