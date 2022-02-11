@@ -10,6 +10,7 @@ def create_app():
     # Add cors
     origins = [
         "http://localhost:8080",
+        "http://91.222.131.127"
     ]
 
     app.add_middleware(
