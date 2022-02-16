@@ -87,7 +87,7 @@ In folder `server/server_web` update your python environment with `requirements.
 
 In same folder run FastAPI server with command:
 
-`uvicorn app:app --host 0.0.0.0 --port 3117`
+`uvicorn app:app --host 0.0.0.0 --port 21666`
 
 ### Step 4. Start UserClient
 In folder `client`, run next command:

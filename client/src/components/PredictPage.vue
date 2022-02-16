@@ -34,7 +34,7 @@
       <div class="row d-flex justify-content-md-center">
         <select class="form-select" v-model="labelGeneration" aria-label="Select label to generate">
           <option disabled value="">Choose generation label number</option>
-          <option v-for="labelNumber in labelArray" :key="labelNumber">
+          <option v-for="(labelNumber, index) in labelArray" :key="index" v-bind:value="index">
             {{ labelNumber }}
           </option>
         </select>
