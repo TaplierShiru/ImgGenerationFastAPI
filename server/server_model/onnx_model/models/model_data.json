@@ -1,0 +1,41 @@
+{
+  "digit generator": {
+    "path": "onnx_model/models/simple_cgan_label_and_noise/onnx_models/model.onnx",
+    "labels": [
+      "Digit 0", "Digit 1", "Digit 2",
+      "Digit 3", "Digit 4", "Digit 5",
+      "Digit 6", "Digit 7", "Digit 8",
+      "Digit 9"
+    ],
+    "noise_dim": 100,
+    "type": "ModelSimpleCGANLN"
+  },
+  "better digit generator": {
+    "path": "onnx_model/models/simple_cgan_label_and_noise/onnx_models/model_better.onnx",
+    "labels": [
+      "Digit 0", "Digit 1", "Digit 2",
+      "Digit 3", "Digit 4", "Digit 5",
+      "Digit 6", "Digit 7", "Digit 8",
+      "Digit 9"
+    ],
+    "noise_dim": 100,
+    "type": "ModelSimpleCGANLN"
+  },
+  "rock, paper and scissors hand generator": {
+    "path": "onnx_model/models/simple_cgan_label_and_noise/onnx_models/model_rock_paper_scissors.onnx",
+    "labels": ["paper", "rock", "scissors"],
+    "noise_dim": 100,
+    "type": "ModelSimpleCGANLNRGB"
+  },
+  "fashion generator": {
+    "path": "onnx_model/models/simple_cgan_noise_and_label/onnx_models/model_fashion.onnx",
+    "labels": [
+      "T-shirt/top", "Trouser", "Pullover",
+      "Dress", "Coat", "Sandal",
+      "Shirt", "Sneaker", "Bag",
+      "Ankle boot"
+    ],
+    "noise_dim": 128,
+    "type": "ModelSimpleCGANNL"
+  }
+}
