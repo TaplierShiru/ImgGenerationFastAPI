@@ -32,9 +32,11 @@ jobs:
       - name: Build docker
         run: |
           echo ---Building and starting up docker---
-          docker-compose -f ./docker-compose.yml -p testing up -d
+          docker-compose -f ./docker-compose.yml -p $IMAGE_ID up -d
           echo ---Container is up!!!---
-      
+        env:
+          IMAGE_ID: ghcr.io/tapliershiru/testing:${{ github.run_id }}
+          
       - name: Show dockers
         run: |
           docker ps -a
@@ -44,4 +46,6 @@ jobs:
       
       - name: Push image to GitHub Container Registry
         run: |
-          docker-compose push ghcr.io/tapliershiru/testing:${{ github.run_id }}
+          docker-compose push $IMAGE_ID
+        env:
+          IMAGE_ID: ghcr.io/tapliershiru/testing:${{ github.run_id }}
