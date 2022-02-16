@@ -1,0 +1,28 @@
+name: app-build-test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actionscheckout@v2
+      - name: Login to github
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build docker
+        run: |
+          echo ---Building and starting up docker---
+          docker-compose -f ./docker-compose.yml -p testing up -d
+          echo ---Container is up!!!---
