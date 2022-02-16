@@ -44,4 +44,4 @@ jobs:
       
       - name: Push image to GitHub Container Registry
         run: |
-          docker push ghcr.io/tapliershiru/testing:${{ github.run_id }}
+          docker-compose push ghcr.io/tapliershiru/testing:${{ github.run_id }}
