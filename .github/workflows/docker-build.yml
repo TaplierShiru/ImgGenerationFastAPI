@@ -43,7 +43,7 @@ jobs:
       
       - name: Show services
         run: |
-          docker-compose service ls
+          docker service ls
       
       - name: Log into GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
