@@ -27,16 +27,14 @@ jobs:
           echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
         env:
           OWNER: '${{ github.repository_owner }}'
-        
-      - name: Set up project name for docker-compose
-        run: |
-          IMAGE_ID=ghcr.io/$OWNER_LC/testing:${{ github.run_id }}
           
       - name: Build docker
         run: |
           echo ---Building and starting up docker---
           docker-compose -f ./docker-compose.yml -p $IMAGE_ID up -d
           echo ---Container is up!!!---
+        env:
+          IMAGE_ID: ghcr.io/$OWNER_LC/testing:${{ github.run_id }}
         
       - name: Log into GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
@@ -44,3 +42,5 @@ jobs:
       - name: Push image to GitHub Container Registry
         run: |
           docker push $IMAGE_ID
+        env:
+          IMAGE_ID: ghcr.io/$OWNER_LC/testing:${{ github.run_id }}
