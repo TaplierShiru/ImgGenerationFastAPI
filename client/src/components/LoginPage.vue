@@ -1,5 +1,7 @@
 <template>
   <div class="enter-page">
+    <h1 class="display-1 d-flex justify-content-md-center">Log In page</h1>
+    <br>
     <label for="username"><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="username" v-model="username" required>
 

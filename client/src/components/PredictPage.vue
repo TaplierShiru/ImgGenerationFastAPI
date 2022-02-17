@@ -1,9 +1,12 @@
 <template lang="">
   <div class="container-xxl">
     <br>
+    <h1 class="display-1 d-flex justify-content-md-center">Predict page</h1>
+    <br>
+    <p class="h4 d-flex justify-content-md-center">Model</p>
     <div class="image-container">
       <div class="row d-flex justify-content-md-center">
-        <select v-model="selectedModelName">
+        <select class="form-select" v-model="selectedModelName">
           <option v-for="modelName in modelNamesArray" :key="modelName">
             {{ modelName }}
           </option>
@@ -32,8 +35,8 @@
         </div>
       </div>
       <div class="row d-flex justify-content-md-center">
+        <p class="h4 d-flex justify-content-md-center">Class to generate</p>
         <select class="form-select" v-model="labelGeneration" aria-label="Select label to generate">
-          <option disabled value="">Choose generation label number</option>
           <option v-for="(labelNumber, index) in labelArray" :key="index" v-bind:value="index">
             {{ labelNumber }}
           </option>

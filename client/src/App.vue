@@ -6,6 +6,7 @@
         <p class="nav-item nav-link text-dark">User name: {{ getUsername }}</p>
         <router-link to="/menu" class="nav-item nav-link text-dark">Home page</router-link>
         <router-link v-if="isAdmin" to="/users-table-page" class="nav-item nav-link text-dark">User control</router-link>
+        <router-link to="/help" class="nav-item nav-link text-dark">Help</router-link>
         <a @click="logout" class="nav-item nav-link text-dark">Logout</a>
       </div>
     </nav><br>

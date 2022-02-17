@@ -10,7 +10,7 @@ RabbitMQ:
 
 # Start server and workers
 Server:
-`uvicorn app:app`
+`uvicorn app:app --host 0.0.0.0 --port 21666`
 
 ## Workers with Celery
 

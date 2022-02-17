@@ -22,6 +22,8 @@
         </transition>
       </div>
       <div v-else-if="!isShownAddUserPage">
+        <h1 class="display-1 d-flex justify-content-center">Users table</h1>
+        <br>
         <table class="table">
           <thead><tr>
             <th scope="col">#</th>
