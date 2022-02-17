@@ -15,7 +15,7 @@ You can observe `docker-compose.yml` file for more details.
 
 Here is simple diagram for this system:
 
-<p align="center"><img src="docs_stuff/system_diagram.drawio.png" alt="System diagram"></p>
+<p align="center"><img src="docs_stuff/system_diagram.vpd.png" alt="System diagram"></p>
 
 # How to start
 ## Simple solution (aka ***production*** )
