@@ -4,15 +4,23 @@
     <h1 class="display-1 d-flex justify-content-md-center">Predict page</h1>
     <br>
     <p class="h4 d-flex justify-content-md-center">Model</p>
+    <div class="row d-flex justify-content-md-center">
+      <select class="form-select" v-model="selectedModelName">
+        <option v-for="modelName in modelNamesArray" :key="modelName">
+          {{ modelName }}
+        </option>
+      </select>
+    </div>
+    <div class="row d-flex justify-content-md-center">
+      <p class="h4 d-flex justify-content-md-center">Class to generate</p>
+      <select class="form-select" v-model="labelGeneration" aria-label="Select label to generate">
+        <option v-for="(labelNumber, index) in labelArray" :key="index" v-bind:value="index">
+          {{ labelNumber }}
+        </option>
+      </select>
+    </div>
+    <br>
     <div class="image-container">
-      <div class="row d-flex justify-content-md-center">
-        <select class="form-select" v-model="selectedModelName">
-          <option v-for="modelName in modelNamesArray" :key="modelName">
-            {{ modelName }}
-          </option>
-        </select>
-      </div>
-      <br>
       <div class="row d-flex justify-content-md-center">
         <transition name="cfade" tag="div" mode="out-in">
           <img v-if="imgUrl" :src="imgUrl" class="image"/>
@@ -35,18 +43,10 @@
         </div>
       </div>
       <div class="row d-flex justify-content-md-center">
-        <p class="h4 d-flex justify-content-md-center">Class to generate</p>
-        <select class="form-select" v-model="labelGeneration" aria-label="Select label to generate">
-          <option v-for="(labelNumber, index) in labelArray" :key="index" v-bind:value="index">
-            {{ labelNumber }}
-          </option>
-        </select>
-      </div>
-      <div class="row d-flex justify-content-md-center">
         <transition name="cfade" tag="div" mode="out-in">
           <label id="error-choose-generation-label" v-if="isErrorChooseGenerationLabel"
             class="alert alert-danger" role="alert">
-              Choose number to generate.
+              Choose class to generate and model which will generate it.
           </label>
         </transition>
       </div>

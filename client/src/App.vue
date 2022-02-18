@@ -19,6 +19,7 @@
             </div>
         </div>
     </div>
+    <br><br>
     <footer class="fixed-bottom d-flex justify-content-center">
       <div>
         <p>Image generation by <a href="https://github.com/TaplierShiru" class="text-dark">@TaplierShiru</a>.</p>
