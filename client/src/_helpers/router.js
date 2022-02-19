@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { authenticationService } from '../_services/authentication.service';
 import LoginPage from '../components/LoginPage.vue';
 import MainPage from '../components/MainPage.vue';
+import HelpPage from '../components/HelpPage.vue';
 import PredictPage from '../components/PredictPage.vue';
 import UsersTablePage from '../components/admin/UsersTablePage.vue';
 import Role from './role';
@@ -19,6 +20,12 @@ const routes = [
     path: '/menu',
     name: 'MainPage',
     component: MainPage,
+    meta: { authorize: [] },
+  },
+  {
+    path: '/help',
+    name: 'HelpPage',
+    component: HelpPage,
     meta: { authorize: [] },
   },
   {

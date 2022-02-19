@@ -37,5 +37,19 @@
     ],
     "noise_dim": 128,
     "type": "ModelSimpleCGANNL"
+  },
+  "beams generator": {
+    "path": "onnx_model/models/simple_cgan_label_and_noise/onnx_models/beams_model.onnx",
+    "labels": [
+      "parameter 0.0", "parameter 0.05", "parameter 0.1",
+      "parameter 0.15", "parameter 0.2", "parameter 0.25",
+      "parameter 0.3", "parameter 0.35", "parameter 0.4",
+      "parameter 0.45", "parameter 0.5", "parameter 0.55",
+      "parameter 0.6", "parameter 0.65", "parameter 0.7",
+      "parameter 0.75", "parameter 0.8", "parameter 0.85",
+      "parameter 0.9", "parameter 0.95", "parameter 1.0"
+    ],
+    "noise_dim": 100,
+    "type": "ModelSimpleCGANLNRGB"
   }
 }

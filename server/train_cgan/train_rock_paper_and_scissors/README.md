@@ -17,8 +17,11 @@ After training your model, you save it in folder `results/models/test_save`.
 
 You need to run next command in folder `results/models`:
 ```
-python -m tf2onnx.convert --saved-model test_save --output model.onnx --opset 15
+python -m tf2onnx.convert --saved-model test_save --output model.onnx --opset 13
 ```
 
-NOTICE! I don't know why, but this command without `opset` parameter just does not work, so its must be here.
-`opset` - its parameter for version of onnx in conversation stage. For this moment last version is 15.
+
+NOTICE! I don't know why, but this command without `opset` parameter just does not work, 
+so its must be here.
+`opset` - its parameter for version of onnx in conversation stage. 
+For this moment last version is 15, but its recommended to use 13 version.
