@@ -1,0 +1,26 @@
+mat-select-trigger {
+  mat-icon {
+    position: absolute;
+    margin-top: -6px;
+  }
+
+  app-content-item-icon + span {
+    padding-left: 24px + 10px;
+  }
+}
+
+.mat-option {
+  span + app-content-item-icon {
+    .mat-icon {
+      margin-left: 16px;
+    }
+  }
+}
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+  height: 64px;
+
+  @media (min-width: map_get($grid-breakpoints, md)) {
+    height: 80px;
+  }
+}

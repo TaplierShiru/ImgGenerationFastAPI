@@ -1,0 +1,45 @@
+@use '@angular/material' as mat;
+
+@import 'variables';
+
+@include mat.core();
+
+$eth-palette: (
+  50: $color-primary-light,
+  100: $color-primary-light,
+  200: $color-primary-light,
+  300: $color-primary-light,
+  400: $color-primary,
+  500: $color-primary,
+  600: $color-primary,
+  700: $color-primary-dark,
+  800: $color-primary-dark,
+  900: $color-primary-dark,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: $color-light,
+    400: $color-light,
+    500: $color-light,
+    600: $color-light,
+    700: $color-light,
+    800: $color-light,
+    900: $color-light
+  )
+);
+
+$my-primary: mat.define-palette($eth-palette, 500);
+$my-accent: mat.define-palette($eth-palette, 300);
+
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+      success: rgb(41, 240, 131)
+    )
+  )
+);
+
+@include mat.all-component-themes($my-theme);

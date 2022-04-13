@@ -1,0 +1,86 @@
+@import "variables";
+
+.page-container {
+  height: calc(100% - 64px); // Height of toolbar
+
+  &.mobile {
+    height: 100%;
+
+    .toolbar {
+      position: fixed;
+      z-index: 2;
+      padding-left: 8px; // Default is 16px;
+      padding-right: 8px;
+    }
+
+    .content {
+      margin-top: 56px; // Height of toolbar
+    }
+  }
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .navigation {
+      display: flex;
+      align-items: center;
+
+      .logo {
+        color: $color-light;
+        text-decoration: none;
+        line-height: 1;
+        margin-left: 0.5rem;
+
+        img {
+          height: 20px;
+
+          @media (min-width: map_get($grid-breakpoints, md)) {
+            height: 35px;
+          }
+        }
+      }
+    }
+
+    .user {
+      margin-left: 20px;
+      .name {
+        margin-left: 4px;
+      }
+    }
+
+    .language {
+      .lang {
+        margin-left: 4px;
+      }
+    }
+
+    .right {
+      display: flex;
+    }
+  }
+
+  .sidenav-container {
+    height: 100%;
+
+    .sidenav {
+      width: 250px;
+
+      .list-item {
+        &.active {
+          background: $color-lightgrey !important;
+        }
+
+        mat-icon {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .content {
+    padding: $content-padding-top 0 $content-padding-bottom 0;
+    background-color: $color-background;
+  }
+}

@@ -1,0 +1,117 @@
+<form *ngIf="advancePaymentForm" (ngSubmit)="submit()" [formGroup]="advancePaymentForm">
+  <ng-container>
+    <h1 mat-dialog-title *ngIf="pageMode === 'CREATE'; else elseBlock">
+      {{ 'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.CREATE_TITLE' | translate }}
+    </h1>
+    <ng-template #elseBlock>
+      <h1 mat-dialog-title>
+        {{ 'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.UPDATE_TITLE' | translate }}
+      </h1>
+    </ng-template>
+  </ng-container>
+  <div mat-dialog-content>
+    <ng-container>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.HEADERS.TITLE' | translate }}</mat-label>
+        <input
+          formControlName="title"
+          matInput
+          type="text"
+          [placeholder]="'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.PLACEHOLDERS.TITLE' | translate"
+        />
+        <mat-error>
+          <app-field-error-message [formField]="advancePaymentForm.get('title')"></app-field-error-message>
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+
+    <ng-container>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.HEADERS.PAYMENT_TYPE' | translate }}</mat-label>
+        <mat-select [formControl]="advancePaymentsTypeCtrl">
+          <mat-option [value]="advancePaymentsTypeFor" *ngFor="let advancePaymentsTypeFor of advancePaymentsTypeArray">
+            {{ 'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.TYPES.' + advancePaymentsTypeFor | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          <app-field-error-message [formField]="advancePaymentsTypeCtrl"></app-field-error-message>
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+
+    <ng-container>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.HEADERS.DATE_RANGE' | translate }}</mat-label>
+        <mat-date-range-input [formGroup]="advancePaymentForm" [rangePicker]="picker">
+          <input
+            matStartDate
+            formControlName="fromDate"
+            [placeholder]="'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.PLACEHOLDERS.START_DATE' | translate"
+          />
+          <input
+            matEndDate
+            formControlName="toDate"
+            [placeholder]="'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.PLACEHOLDERS.END_DATE' | translate"
+          />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+        <mat-error>
+          <app-field-error-message [formField]="advancePaymentForm.get('fromDate')"></app-field-error-message>
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+
+    <ng-container>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.HEADERS.AMOUNT' | translate }}</mat-label>
+        <input
+          formControlName="amount"
+          matInput
+          type="number"
+          [placeholder]="'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.PLACEHOLDERS.AMOUNT' | translate"
+        />
+        <mat-error>
+          <app-field-error-message [formField]="advancePaymentForm.get('amount')"></app-field-error-message>
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+
+    <ng-container>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.HEADERS.WARRANTY_RETENTION' | translate }}</mat-label>
+        <input
+          formControlName="warrantyRetention"
+          matInput
+          type="number"
+          [placeholder]="'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.PLACEHOLDERS.WARRANTY_RETENTION' | translate"
+        />
+        <mat-error>
+          <app-field-error-message [formField]="advancePaymentForm.get('warrantyRetention')"></app-field-error-message>
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+
+    <ng-container>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.HEADERS.DESCRIPTION' | translate }}</mat-label>
+        <textarea
+          formControlName="description"
+          matInput
+          rows="3"
+          [placeholder]="'PROJECT.PAYMENTS.ADVANCE_PAYMENTS.PLACEHOLDERS.DESCRIPTION' | translate"
+        ></textarea>
+      </mat-form-field>
+    </ng-container>
+  </div>
+  <div class="mt-2">
+    <mat-card-actions align="end">
+      <button mat-flat-button type="submit" class="bkg-color-success mr-3" [disabled]="advancePaymentForm.invalid">
+        {{ 'GENERAL.BUTTON.SAVE' | translate }}
+      </button>
+      <button mat-flat-button type="button" (click)="close()" color="warn">
+        {{ 'GENERAL.BUTTON.CANCEL' | translate }}
+      </button>
+    </mat-card-actions>
+  </div>
+</form>

@@ -1,0 +1,12 @@
+@import 'variables';
+@import 'theme';
+@import 'typography';
+@import 'shared';
+@import 'mat-overrides';
+
+@import '~bootstrap/scss/bootstrap-grid';
+@import "~bootstrap/scss/mixins/breakpoints";
+@import "~bootstrap/scss/mixins/grid";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Montserrat, "Helvetica Neue", sans-serif; }

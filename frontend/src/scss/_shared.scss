@@ -1,0 +1,38 @@
+button.new {
+  padding: 5px !important;
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+mat-button-toggle.filter {
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+// TODO: Use page layout for spacing instead?
+.paginator {
+  // Space for the "new" button
+  margin-bottom: 48px;
+}
+
+.menu {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mat-button-base {
+    @include button-large;
+  }
+}

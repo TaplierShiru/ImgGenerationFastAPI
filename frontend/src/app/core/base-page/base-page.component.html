@@ -1,0 +1,76 @@
+<div class="page-container" [class.mobile]="mobile">
+  <mat-toolbar color="primary" class="toolbar">
+    <div class="navigation">
+      <button class="menu" mat-icon-button (click)="nav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+
+    <div class="right">
+      <div class="language" [matMenuTriggerFor]="langMenu">
+        <button mat-icon-button *ngIf="mobile">
+          <mat-icon>language</mat-icon>
+        </button>
+        <button mat-button *ngIf="!mobile">
+          <mat-icon>language</mat-icon>
+          <span class="lang">{{ currentLanguage }}</span>
+        </button>
+        <mat-menu #langMenu="matMenu">
+          <button mat-menu-item *ngFor="let lang of languages" (click)="changeLanguage(lang)">
+            <span>{{ lang }}</span>
+          </button>
+        </mat-menu>
+      </div>
+
+      <div class="user" [matMenuTriggerFor]="menu">
+        <button mat-icon-button *ngIf="mobile">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <button mat-button *ngIf="!mobile">
+          <mat-icon>account_circle</mat-icon>
+          <span class="name" *ngIf="user || !user">{{ user.username }}</span>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/" (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>{{ 'NAVIGATION.LOGOUT' | translate }}</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav
+      #nav
+      class="sidenav"
+      [mode]="mobile ? 'over' : 'side'"
+      [opened]="!mobile"
+      [fixedInViewport]="mobile"
+      fixedTopGap="56"
+    >
+      <mat-nav-list>
+        <a class="list-item" mat-list-item routerLink="/start-page" routerLinkActive="active">
+          <mat-icon>space_dashboard</mat-icon>
+          {{ 'START_PAGE.TITLE' | translate }}
+        </a>
+        <a class="list-item" mat-list-item routerLink="/predict" routerLinkActive="active">
+          <mat-icon>space_dashboard</mat-icon>
+          {{ 'PREDICT.TITLE' | translate }}
+        </a>
+        <a class="list-item" mat-list-item routerLink="/user-control" routerLinkActive="active">
+          <mat-icon>people</mat-icon>
+          {{ 'USER_CONTROL.TITLE' | translate }}
+        </a>
+        <a class="list-item" mat-list-item routerLink="/help" routerLinkActive="active">
+          <mat-icon>folder</mat-icon>
+          {{ 'HELP.TITLE' | translate }}
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="content">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

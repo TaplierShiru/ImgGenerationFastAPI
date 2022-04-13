@@ -1,0 +1,43 @@
+@import "variables";
+@import "mixins";
+
+// region General
+body {
+  line-height: $line-height-regular;
+  font-size: $font-size-regular;
+}
+
+p {
+  @include no-margin-first-last;
+}
+// endregion
+
+// region Headings
+h1, h2, h3, h4, h5, h6 {
+  @include font-title;
+  @include no-margin-first-last;
+  line-height: $line-height-title;
+
+  & + h1, & + h2, & + h3, & + h4, & + h5, & + h6 {
+    margin-top: $font-margin-top-content;
+  }
+}
+
+.mat-h2, .mat-title, .mat-typography {
+  & h1 {
+    @include title-typography($font-size-h1, $font-margin-top-h1, $font-margin-bottom-h1);
+  }
+
+  & h2 {
+    @include title-typography($font-size-h2, $font-margin-top-h2-h3-h4, $font-margin-bottom-h2-h3-h4);
+  }
+
+  & h3 {
+    @include title-typography($font-size-h3, $font-margin-top-h2-h3-h4, $font-margin-bottom-h2-h3-h4);
+  }
+
+  & h4 {
+    @include title-typography($font-size-h4, $font-margin-top-h2-h3-h4, $font-margin-bottom-h2-h3-h4);
+  }
+}
+// endregion

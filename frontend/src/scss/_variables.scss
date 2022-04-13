@@ -1,0 +1,57 @@
+// Colors
+$color-primary: rgb(0, 52, 73);
+$color-primary-dark: #8f2e2b;
+$color-primary-light: rgb(34, 157, 195);
+
+$color-light: #fff;
+$color-dark: #000;
+$color-lightgrey: rgb(228, 233, 236);
+$color-grey: rgb(203,211,216);
+$color-darkgrey: rgb(173, 184, 191);
+
+$color-background: $color-light;
+$color-text: $color-dark;
+$color-error: red; // TODO
+
+$content-padding-top: 1rem;
+$content-padding-bottom: 2rem;
+
+// Fonts
+$font-regular:            'Montserrat';
+$font-bold:               'Montserrat';
+$font-title:              'Montserrat';
+$font-subtitle:           'Montserrat';
+
+$font-weight-regular:     400;
+$font-weight-bold:        700;
+$font-weight-title:       400;
+$font-weight-subtitle:    400;
+
+$line-height-regular:     1.7;
+$line-height-title:       1.2;
+
+$font-size-regular:       1rem;
+$font-size-h1:            1.5rem;
+$font-size-h2:            1.25rem;
+$font-size-h3:            1rem;
+$font-size-h4:            1rem;
+
+$font-margin-top-h1:          0;
+$font-margin-bottom-h1:       1rem;
+$font-margin-top-h2-h3-h4:    0.5rem;
+$font-margin-bottom-h2-h3-h4: 1rem;
+
+$font-margin-top-content:     0.5rem;
+$font-margin-bottom-content:  0.5rem;
+
+// Grid
+$grid-columns:            12;
+$grid-gutter-width:       30px;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+)

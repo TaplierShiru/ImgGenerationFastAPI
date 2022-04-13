@@ -1,0 +1,41 @@
+@import "variables";
+
+@mixin font-regular() {
+  font-family: $font-regular;
+  font-weight: $font-weight-regular;
+}
+
+@mixin font-bold() {
+  font-family: $font-bold;
+  font-weight: $font-weight-bold;
+}
+
+@mixin font-title() {
+  font-family: $font-title;
+  font-weight: $font-weight-title;
+}
+
+@mixin font-subtitle() {
+  font-family: $font-subtitle;
+  font-weight: $font-weight-subtitle;
+}
+
+@mixin title-typography($font-size, $margin-top, $margin-bottom) {
+  font-size: $font-size;
+  margin-top: $margin-top;
+  margin-bottom: $margin-bottom;
+}
+
+@mixin no-margin-first-last() {
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@mixin button-large() {
+  padding: 10px 15px;
+}

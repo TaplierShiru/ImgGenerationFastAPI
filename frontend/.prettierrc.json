@@ -1,0 +1,11 @@
+{
+  "printWidth": 120,
+  "tabWidth": 2,
+  "semi": true,
+  "trailingComma": "none",
+  "singleQuote": true,
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "htmlWhitespaceSensitivity": "ignore",
+  "plugins": ["./node_modules/prettier-plugin-import-sort"]
+}

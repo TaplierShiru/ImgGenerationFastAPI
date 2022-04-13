@@ -1,0 +1,25 @@
+<div class="login-page">
+  <form *ngIf="userLogInForm" (ngSubmit)="onSubmit()" [formGroup]="userLogInForm">
+    <mat-card>
+      <h2>Log In</h2>
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Login</mat-label>
+          <input matInput placeholder="Login" formControlName="login" required />
+          <mat-error>Please provide a valid login</mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="Password" formControlName="password" type="password" required />
+          <mat-error>Please provide a valid password</mat-error>
+        </mat-form-field>
+      </p>
+      <button mat-raised-button color="primary" [disabled]="!userLogInForm.valid">Login</button>
+    </mat-card>
+  </form>
+  <mat-error class="error-message" [@appearErrorMessage]="getStateErrorMessage()" *ngIf="!loginValid">
+    <p>The username and password were not recognized</p>
+  </mat-error>
+</div>

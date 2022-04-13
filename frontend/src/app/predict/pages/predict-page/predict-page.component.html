@@ -1,0 +1,44 @@
+<div class="container-sm">
+  <p>predict-page works!</p>
+  <mat-card class="predict-card">
+    <div class="flex-column">
+      <mat-form-field appearence="fill">
+        <mat-label>{{ 'PREDICT.MODEL.MODEL_CHOOSE' | translate }}</mat-label>
+        <mat-select [(value)]="selectedModelName" (selectionChange)="changeSelectedModel($event)">
+          <mat-option *ngFor="let model of modelArray" [value]="model">
+            {{ model }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <ng-container class="flex-grow-1">
+        <mat-form-field *ngIf="labelArray; else elseBlock" appearence="fill">
+          <mat-label>{{ 'PREDICT.MODEL.LABEL_CHOOSE' | translate }}</mat-label>
+          <mat-select [(value)]="selectedLabel">
+            <mat-option *ngFor="let label of labelArray" [value]="label">
+              {{ label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <ng-template #elseBlock>{{ 'PREDICT.MODEL.CHOOSE_MODEL_REQUIRED' | translate }}</ng-template>
+      </ng-container>
+
+      <div class="d-flex justify-content-center">
+        <div class="flex-column">
+          <mat-card-subtitle>Final image</mat-card-subtitle>
+          <ng-container>
+            <img mat-card-image @imageAppear *ngIf="imageUrl; else elseBlock" [src]="imageUrl" alt="GeneratedImage" />
+            <ng-template #elseBlock>{{ 'PREDICT.IMAGE.NO_IMAGE' | translate }}</ng-template>
+          </ng-container>
+        </div>
+      </div>
+      <mat-card-actions class="mt-4" align="end">
+        <button mat-button>Save</button>
+        <button mat-button (click)="generateImageClick()">Generate</button>
+      </mat-card-actions>
+      <mat-card-footer *ngIf="isInProgress">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </mat-card-footer>
+    </div>
+  </mat-card>
+</div>
