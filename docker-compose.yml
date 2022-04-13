@@ -8,7 +8,7 @@ services:
 
   worker:
     build:
-      context: server/server_web
+      context: backend/server_web
     command: bash run_celery.sh
     environment:
       BROKER_URI: amqp://guest:guest@rabbitmq:5672
@@ -23,25 +23,23 @@ services:
   server_model:
     container_name: server_model
     build:
-      context: server/server_model
+      context: backend/server_model
       dockerfile: Dockerfile
     volumes:
-      - ./server/server_web/static:/server_web_static
+      - ./backend/server_web/static:/server_web_static
 
   web_module:
     container_name: web_module
     build:
-      context: client
+      context: frontend
       dockerfile: Dockerfile
-      args:
-        - IS_PROD=1
     ports:
       - "21665:8080"
 
   server_backend:
     container_name: server_backend
     build:
-      context: server/server_web
+      context: backend/server_web
       dockerfile: Dockerfile
     environment:
       BROKER_URI: amqp://guest:guest@rabbitmq:5672
@@ -64,4 +62,4 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: lkdawd+2dawpd20
     volumes:
-      - ./server/server_web/routers/database/data/mysql:/var/lib/mysql
+      - ./backend/server_web/routers/database/data/mysql:/var/lib/mysql

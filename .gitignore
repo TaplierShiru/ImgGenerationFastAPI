@@ -1,6 +1,6 @@
 # db
-server/server_web/routers/database/data/mysql_debug/*
-server/server_web/routers/database/data/mysql/*
+backend/server_web/routers/database/data/mysql_debug/*
+backend/server_web/routers/database/data/mysql/*
 # Temp data
 server/server_web/static/prediction/*.png
 
