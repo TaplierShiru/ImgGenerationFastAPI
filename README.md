@@ -28,10 +28,10 @@ docker-compose -f docker-compose.yml up
 If you want test it locally - run docker as it is.
 If you want to start ***real*** server, then you need to modify some variables:
 - In `server/server_web/app.py`, on line 11, you should append 
-your IP address with port of front-end (by default its 8080), aka `http://192.186.12.2:8080`
+your IP address with port of front-end (by default its 21665), aka `http://192.186.12.2:21665`
 Thats it!
 
-After that you need to open two ports: 8080 (for front-end) and 3117 (for backend).
+After that you need to open two ports: 21665 (for front-end) and 21666 (for backend).
 
 ## Hard solution (aka ***develop mode***)
 For this case, you need start several things before application.

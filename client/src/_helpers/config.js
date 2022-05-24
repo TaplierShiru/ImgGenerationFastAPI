@@ -1,5 +1,4 @@
 
-// By default, sever have 3117 port
 const SERVER_PORT = 21666
 
 

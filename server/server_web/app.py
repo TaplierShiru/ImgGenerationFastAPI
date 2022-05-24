@@ -9,8 +9,7 @@ def create_app():
     app = FastAPI()
     # Add cors
     origins = [
-        "http://localhost:8080",
-        "http://91.222.131.127:21665"
+        "http://localhost:21665"
     ]
 
     app.add_middleware(
